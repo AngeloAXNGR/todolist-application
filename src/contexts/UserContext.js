@@ -33,6 +33,8 @@ export const UserProvider = ({children}) => {
       if(user){
         navigate('/home');
         setAccounName(user.email)
+      }else{
+        navigate('/');
       }
     })
   }, [])

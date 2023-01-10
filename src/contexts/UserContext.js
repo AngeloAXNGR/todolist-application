@@ -1,9 +1,7 @@
 import React from "react";
 import { signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword, signOut} from 'firebase/auth';
-import { auth, db} from '../firebase_config';
-import {set, ref, onValue, remove, update} from 'firebase/database';
+import { auth } from '../firebase_config';
 import { useNavigate } from 'react-router-dom';
-import { nanoid } from "nanoid";
 
 const UserContext = React.createContext();
 

@@ -5,22 +5,31 @@ export default function Project() {
   const {
     todo, 
     projectForm, 
+    showForm,
+    setShowForm,
     handleProjectForm, 
     addProject, 
     deleteProject,
     selected,
-    setSelected,
+    setEdit,
     updateProject,
+    active,
+    setActive
   } = React.useContext(TodoContext);
-
-  console.log(projectForm);
 
   const projects = todo.map(project => {
     return(
-      <div className="project">
+      <div>
         { selected !== project.projectId ?
-          <p onClick={()=>setSelected(project.projectId)}>{project.projectTitle}</p>
-
+          <div 
+            style={active === project.projectId ? {backgroundColor: '#444444'} : {backgroundColor: '#292929'}} 
+            className='project'
+            onClick={() =>setActive(project.projectId)}
+          >
+            <p onClick={()=>setEdit(project.projectId, project.projectTitle)}>{project.projectTitle}</p>
+            <button onClick={() => deleteProject(project.projectId)}>Delete</button>
+          </div>
+          
           :
 
           <input 
@@ -31,25 +40,32 @@ export default function Project() {
             onBlur={() => updateProject(project.projectId)}
           />
         }
-        
-        <button onClick={() => deleteProject(project.projectId)}>Delete</button>
       </div>
     )
   });
 
   return (
     <div className="projects">
-    <input 
-      type="text" 
-      name="projectTitle"
-      value={projectForm.projectTitle}
-      onChange={handleProjectForm}
+      <h1>Projects</h1>
+      <div className="project-list">
+        {projects}
+        { showForm ? 
+          <div className="project-form">
+            <input
+              type="text"
+              name="projectTitle"
+              value={projectForm.projectTitle}
+              onChange={handleProjectForm}
+              onBlur={addProject}
+            />
+            <button onClick={addProject}>Add Project</button>
+          </div>
 
-    />
-    <button onClick={addProject}>Add Project</button>
-    <div className="projects-list">
-      {projects}
-    </div>
+          :
+          
+          <button onClick={() => setShowForm(true)}>Add Project</button>
+        } 
+      </div>
   </div>
   )
 }

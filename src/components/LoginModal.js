@@ -1,8 +1,8 @@
 import React from 'react'
 import UserContext from '../contexts/UserContext'
 
-export default function LoginModal({handleSignIn}) {
-  const {credentials,setIsRegistering, handleChange} = React.useContext(UserContext);
+export default function LoginModal() {
+  const {credentials,setIsRegistering, handleChange, handleSignIn} = React.useContext(UserContext);
   return (
     <div className="login-modal">
       <h1 className="modal-title">Login</h1>
@@ -26,7 +26,7 @@ export default function LoginModal({handleSignIn}) {
       </div>
 
       <div className="form-buttons">
-        <button onClick={() => {handleSignIn()}}>Sign In</button>
+        <button onClick={handleSignIn}>Sign In</button>
         <button onClick={() => setIsRegistering(true)}>Create an Account</button>
       </div>
     </div>

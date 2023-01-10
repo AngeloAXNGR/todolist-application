@@ -1,11 +1,13 @@
 import React from 'react'
+import UserContext from '../contexts/UserContext'
 
-export default function Header({handleSignOut}) {
+export default function Header() {
+  const {accountName, handleSignOut} = React.useContext(UserContext);
   return (
     <header>
       <h1>TodoList Application</h1>
-      <p>Signed In as: </p>
-      <button onClick={() => {handleSignOut()}}>Sign Out</button>
+      <p>Signed In using: {accountName} </p>
+      <button onClick={handleSignOut}>Sign Out</button>
     </header>
   )
 }

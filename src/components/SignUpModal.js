@@ -1,7 +1,7 @@
 import React from 'react'
 import UserContext from '../contexts/UserContext';
-export default function SignUpModal({handleRegister}) {
-  const {credentials,setIsRegistering, handleChange} = React.useContext(UserContext);
+export default function SignUpModal() {
+  const {credentials,setIsRegistering, handleChange, handleRegister} = React.useContext(UserContext);
   return (
     <div className="sign-up-modal">
       <h1 className="modal-title">Sign Up</h1>
@@ -42,7 +42,7 @@ export default function SignUpModal({handleRegister}) {
       </div>
 
       <div className="form-buttons">
-        <button onClick={() => handleRegister()}>Sign Up</button>
+        <button onClick={handleRegister}>Sign Up</button>
         <button onClick={() => setIsRegistering(false)}>Go Back</button>
       </div>
     </div>

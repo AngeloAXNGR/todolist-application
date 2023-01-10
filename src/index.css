@@ -11,3 +11,79 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.main-container{
+  display:flex;
+  flex-direction: column;
+}
+
+header{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10%;
+  background-color:black;
+  color:white;
+  gap: 100px;
+}
+
+header > h1{
+  margin-right:auto;
+}
+
+
+/* Login Page */
+.login-page{
+  position:relative;
+  height: 100vh;
+}
+
+.login-modal, .sign-up-modal{
+  position:absolute;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+  top: 10%;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right: auto;
+  text-align:center;
+  width: 40%;
+  display:flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.modal-title{
+  margin:0;
+}
+
+.form-inputs{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+
+.form-inputs >input{
+  border-radius: 10px;
+  border:1px solid gray;
+  padding: 5px 20px;
+  font-size:2rem;
+}
+
+.form-buttons{
+  display:flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.form-buttons > button{
+  width: 100%;
+  padding: 5px 20px;
+  font-size: 1.5rem;
+  cursor:pointer;
+}
+
+/* End Login Page */

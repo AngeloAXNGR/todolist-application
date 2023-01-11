@@ -148,8 +148,18 @@ main{
   align-items: center;
 }
 
-#task-title{
+#task-title, #task-title-form{
   margin-right:auto;
+}
+
+#checkbox{
+  height: 20px;
+  width:20px;
+  border-radius: 16px;
+  background-color: black;
+  border: 2px solid gray;
+  margin-right: 20px;
+  cursor:pointer;
 }
 
 

@@ -8,15 +8,16 @@ export const TodoProvider = ({children}) =>{
 
 const [todo, setTodo] = React.useState([]);
 const [projectForm, setProjectForm] = React.useState({projectTitle: ''});
-const [taskForm, setTaskForm] = React.useState({taskTitle:''})
+const [taskForm, setTaskForm] = React.useState({taskTitle:'', taskDueDate:''})
 const [showForm, setShowForm] = React.useState(false);
 const [showTaskForm, setShowTaskForm] = React.useState(false);
+const [hideTaskComponent, setHideTaskComponent] = React.useState(false);
 const [selected, setSelected] = React.useState(null);
 const [active, setActive] = React.useState(null);
 const [activeProjectTitle, setActiveProjectTitle] = React.useState('');
 const [tasks, setTasks] = React.useState([]);
+const [taskSelected, setTaskSelected] = React.useState({titleField:null, dateField:null});
 
-const [taskSelected, setTaskSelected] = React.useState(null);
 
 
 React.useEffect(() => {
@@ -34,7 +35,6 @@ React.useEffect(() => {
       onValue(ref(db, `/${auth.currentUser.uid}`), snapshot =>{
         setTodo([]);
         const data = snapshot.val();
-        // console.log(data);
         if(data !==null){
           renderData(data);
         }
@@ -48,9 +48,11 @@ React.useEffect(() => {
     const activeProject = todo.find(project => project.projectId === active)
     if(activeProject === undefined){
       setTasks([])
+      setHideTaskComponent(true)
     }else{
       setTasks(activeProject.tasks)
       setActiveProjectTitle(activeProject.projectTitle)
+      setHideTaskComponent(false)
     }
   }, [todo, active])
 
@@ -74,7 +76,6 @@ React.useEffect(() => {
       {
         projectId: projectId,
         projectTitle: projectForm.projectTitle,
-        // tasks: JSON.stringify([{taskId: nanoid(), taskTitle: 'Test Task'}]),
         tasks: JSON.stringify([]),
       }
     )
@@ -125,7 +126,7 @@ React.useEffect(() => {
     console.log(activeProject);
     
     const newTaskArray = activeProject.tasks
-    newTaskArray.push({taskId:nanoid(), taskTitle:taskTitle})
+    newTaskArray.push({taskId:nanoid(), taskTitle:taskTitle, taskDueDate:''})
     update(ref(db, `/${auth.currentUser.uid}/${active}`),
     {
       projectId: active,
@@ -150,18 +151,21 @@ React.useEffect(() => {
   }
 
 
-  const setTaskEdit = (taskId, task) =>{
-    setTaskSelected(taskId);
-    setTaskForm({taskTitle: task.taskTitle});
-    console.log(taskId)
-    console.log(task.taskTitle);
+  const setTaskEdit = (e, taskId, task) =>{
+    // setTaskSelected(taskId);
+
+    // console.log(taskId)
+    // console.log(task.taskTitle);
+    // console.log(e.target.id);
+    e.target.id === "task-title" ? setTaskSelected({titleField:taskId, dateField:null}) : setTaskSelected({titleField:null, dateField:taskId})
+    setTaskForm({taskTitle: task.taskTitle, taskDueDate:task.taskDueDate});
   }
 
   const updateTask = (taskId) =>{
     const activeProject = todo.find(project => project.projectId === active);
 
     const newTaskArray = activeProject.tasks.map(task => {
-      return task.taskId === taskId ? {taskId: taskId, taskTitle:taskForm.taskTitle } : task
+      return task.taskId === taskId ? {taskId: taskId, taskTitle:taskForm.taskTitle, taskDueDate:taskForm.taskDueDate } : task
     })
 
     update(ref(db, `/${auth.currentUser.uid}/${active}`),
@@ -171,8 +175,8 @@ React.useEffect(() => {
       tasks: JSON.stringify(newTaskArray)
     })
 
-    setTaskForm({taskTitle:''});
-    setTaskSelected(null);
+    setTaskForm({taskTitle:'', taskDueDate:''});
+    setTaskSelected({titleField:null, dateField:null});
   }
 
 
@@ -207,6 +211,7 @@ React.useEffect(() => {
           setTaskSelected,
           setTaskEdit,
           updateTask,
+          hideTaskComponent
         }
       }
     >

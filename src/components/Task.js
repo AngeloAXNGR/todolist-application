@@ -2,6 +2,8 @@ import React from 'react'
 import TodoContext from '../contexts/TodoContext'
 export default function Task() {
   const {
+    selected,
+    hideTaskComponent,
     activeProjectTitle, 
     tasks, 
     addTaskToProject, 
@@ -11,58 +13,71 @@ export default function Task() {
     taskForm, 
     handleTaskForm,
     taskSelected,
-    setTaskSelected,
     setTaskEdit,
     updateTask,
   } = React.useContext(TodoContext);
 
-  console.log(taskForm);
+  console.log(selected);
+
   const taskElements = tasks.map(task => {
     return(
-      <div>
-      {taskSelected !== task.taskId ?
-        <div className="task">
-          <p id="task-title" onClick={() => setTaskEdit(task.taskId, task)}>{task.taskTitle}</p>
-          <button onClick={() => {deleteTask(task.taskId)}}>Delete Task</button>
-        </div>
-        :
+      <div class="task">
+        <div id="checkbox" onClick={() => deleteTask(task.taskId)}></div>
+        {taskSelected.titleField !== task.taskId ?
+          <p id="task-title" onClick={(e)=>setTaskEdit(e, task.taskId, task)}>{task.taskTitle}</p>
+          :
         <input 
           type="text" 
           name="taskTitle"
+          id="task-title-form"
           value={taskForm.taskTitle}
           onChange={handleTaskForm}
           onBlur={()=>updateTask(task.taskId)}
         />
-      }
+        }
+        {taskSelected.dateField !== task.taskId ?
+          <p id="task-dueDate" onClick={(e)=>setTaskEdit(e, task.taskId, task)}>{task.taskDueDate.trim() === "" ? "No Due Date" : `${task.taskDueDate}`}</p>
+          :
+          <input 
+            type="date" 
+            name="taskDueDate"
+            value={taskForm.dueDate}
+            onChange={handleTaskForm}
+            onBlur={()=>updateTask(task.taskId)}
+          />
+        }
       </div>
     )
   })
 
+
+
   return (
     <div className='tasks'>
-      <h1>{activeProjectTitle}</h1>
-
-      <div className="task-list">
-        {taskElements}
-
-        {showTaskForm ?
-          <div className="task-form">
-            <input
-              type="text"
-              name="taskTitle"
-              value={taskForm.taskTitle}
-              onChange={handleTaskForm}
-            />
-            <button onClick={() => addTaskToProject(taskForm.taskTitle)}>Add Task</button>
-          </div>
-
-          :
-
-          <button onClick={() => setShowTaskForm(true)}>Create Task</button>
-        }
-
-
-      </div>
+      {hideTaskComponent ? 
+      <div>
+        <h1>Select a Project</h1>
+      </div> 
+      : 
+      <div>
+        <h1>{activeProjectTitle}</h1>
+        <div className="task-list">
+          {taskElements}
+          {showTaskForm ?
+            <div className="task-form">
+              <input
+                type="text"
+                name="taskTitle"
+                value={taskForm.taskTitle}
+                onChange={handleTaskForm}
+              />
+              <button onClick={() => addTaskToProject(taskForm.taskTitle)}>Add Task</button>
+            </div>
+            :
+            <button onClick={() => setShowTaskForm(true)}>Create Task</button>
+          }
+        </div>
+      </div>}
     </div>
   )
 }

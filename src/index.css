@@ -102,7 +102,7 @@ main{
   width: 25%;
   background-color:#292929;
   color:white;
-  padding: 20px 10px 20px 30px;
+  padding: 20px 20px 20px 30px;
 }
 
 .projects > h1{
@@ -118,14 +118,44 @@ main{
 .project{
   display:flex;
   align-items: center;
-  padding: 10px;
+  padding: 5px 5px 5px 20px;
   border-radius: 5px;
   cursor:pointer;
 }
 
-.project > p{
+#project-title{
   margin:0;
   margin-right:auto;
+  font-weight: lighter;
+  cursor:text;
+}
+
+#create-project{
+  padding: 5px;
+  cursor:pointer;
+}
+
+.project-form{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+}
+
+.project-form > input, #edit-project-form{
+  padding: 5px;
+}
+
+.project-form-buttons{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+}
+
+.project-form-buttons > button{
+  width: 100%;
+  padding: 5px;
+  cursor:pointer;
 }
 
 .tasks{

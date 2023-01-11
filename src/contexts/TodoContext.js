@@ -8,11 +8,15 @@ export const TodoProvider = ({children}) =>{
 
 const [todo, setTodo] = React.useState([]);
 const [projectForm, setProjectForm] = React.useState({projectTitle: ''});
+const [taskForm, setTaskForm] = React.useState({taskTitle:''})
 const [showForm, setShowForm] = React.useState(false);
+const [showTaskForm, setShowTaskForm] = React.useState(false);
 const [selected, setSelected] = React.useState(null);
 const [active, setActive] = React.useState(null);
-
+const [activeProjectTitle, setActiveProjectTitle] = React.useState('');
 const [tasks, setTasks] = React.useState([]);
+
+const [taskSelected, setTaskSelected] = React.useState(null);
 
 
 React.useEffect(() => {
@@ -46,8 +50,8 @@ React.useEffect(() => {
       setTasks([])
     }else{
       setTasks(activeProject.tasks)
+      setActiveProjectTitle(activeProject.projectTitle)
     }
-    // console.log(tasks)
   }, [todo, active])
 
   const handleProjectForm = (event) => {
@@ -78,7 +82,6 @@ React.useEffect(() => {
     setShowForm(false);
   }
 
-
   const deleteProject = (projectId) => {
     remove(ref(db, `/${auth.currentUser.uid}/${projectId}`))
     setActive(null);
@@ -108,6 +111,14 @@ React.useEffect(() => {
     setProjectForm({projectTitle:''})
   }
 
+  const handleTaskForm = (event) =>{
+    const {name, type, checked, value} = event.target;
+    setTaskForm(prevForm => {
+      return {...prevForm,
+        [name] : type === "checkbox" ? checked : value
+      }
+    })
+  }
 
   const addTaskToProject = (taskTitle) => {
     const activeProject = todo.find(project => project.projectId === active)
@@ -121,6 +132,9 @@ React.useEffect(() => {
       projectTitle: activeProject.projectTitle,
       tasks: JSON.stringify(newTaskArray)
     })
+
+    setTaskForm({taskTitle:''});
+    setShowTaskForm(false);
   }
 
   const deleteTask = (taskId) => {
@@ -134,6 +148,34 @@ React.useEffect(() => {
       tasks: JSON.stringify(newTaskArray)
     })
   }
+
+
+  const setTaskEdit = (taskId, task) =>{
+    setTaskSelected(taskId);
+    setTaskForm({taskTitle: task.taskTitle});
+    console.log(taskId)
+    console.log(task.taskTitle);
+  }
+
+  const updateTask = (taskId) =>{
+    const activeProject = todo.find(project => project.projectId === active);
+
+    const newTaskArray = activeProject.tasks.map(task => {
+      return task.taskId === taskId ? {taskId: taskId, taskTitle:taskForm.taskTitle } : task
+    })
+
+    update(ref(db, `/${auth.currentUser.uid}/${active}`),
+    {
+      projectId: active,
+      projectTitle: activeProject.projectTitle,
+      tasks: JSON.stringify(newTaskArray)
+    })
+
+    setTaskForm({taskTitle:''});
+    setTaskSelected(null);
+  }
+
+
 
 
   return(
@@ -152,10 +194,19 @@ React.useEffect(() => {
           setShowForm,
           active,
           setActive,
+          activeProjectTitle,
           tasks,
           setTasks,
+          taskForm,
+          handleTaskForm,
           addTaskToProject,
-          deleteTask
+          deleteTask,
+          showTaskForm,
+          setShowTaskForm,
+          taskSelected,
+          setTaskSelected,
+          setTaskEdit,
+          updateTask,
         }
       }
     >

@@ -63,7 +63,7 @@ export default function Project() {
 
           :
           
-          <button onClick={() => setShowForm(true)}>Add Project</button>
+          <button onClick={() => setShowForm(true)}>Create Project</button>
         } 
       </div>
   </div>

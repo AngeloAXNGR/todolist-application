@@ -152,11 +152,6 @@ React.useEffect(() => {
 
 
   const setTaskEdit = (e, taskId, task) =>{
-    // setTaskSelected(taskId);
-
-    // console.log(taskId)
-    // console.log(task.taskTitle);
-    // console.log(e.target.id);
     e.target.id === "task-title" ? setTaskSelected({titleField:taskId, dateField:null}) : setTaskSelected({titleField:null, dateField:taskId})
     setTaskForm({taskTitle: task.taskTitle, taskDueDate:task.taskDueDate});
   }
@@ -178,9 +173,6 @@ React.useEffect(() => {
     setTaskForm({taskTitle:'', taskDueDate:''});
     setTaskSelected({titleField:null, dateField:null});
   }
-
-
-
 
   return(
     <TodoContext.Provider

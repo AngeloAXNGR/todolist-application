@@ -2,7 +2,6 @@ import React from 'react'
 import TodoContext from '../contexts/TodoContext'
 export default function Task() {
   const {
-    selected,
     hideTaskComponent,
     activeProjectTitle, 
     tasks, 
@@ -16,8 +15,6 @@ export default function Task() {
     setTaskEdit,
     updateTask,
   } = React.useContext(TodoContext);
-
-  console.log(selected);
 
   const taskElements = tasks.map(task => {
     return(

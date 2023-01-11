@@ -1,7 +1,9 @@
 import React from "react";
 import { signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword, signOut} from 'firebase/auth';
-import { auth } from '../firebase_config';
+import { auth, db} from '../firebase_config';
+import {set, ref, onValue, remove, update} from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
+import { nanoid } from "nanoid";
 
 const UserContext = React.createContext();
 
@@ -33,9 +35,6 @@ export const UserProvider = ({children}) => {
       if(user){
         navigate('/home');
         setAccounName(user.email)
-      }else if(!user){
-        navigate('/');
-        setAccounName('')
       }
     })
   }, [])
@@ -82,7 +81,6 @@ export const UserProvider = ({children}) => {
     }
   }
 
-
   return(
     <UserContext.Provider
       value={
@@ -94,7 +92,7 @@ export const UserProvider = ({children}) => {
           handleChange,
           handleSignIn,
           handleSignOut,
-          handleRegister
+          handleRegister,
         }}
     >
       {children}

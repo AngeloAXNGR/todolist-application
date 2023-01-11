@@ -131,6 +131,25 @@ main{
 .tasks{
   width: 75%;
   background-color:#202020;
-  
+  padding: 20px 50px;
+  color:white;
 }
+
+.task-list{
+  display:flex;
+  flex-direction: column;
+  width: 90%;
+  margin:auto;
+}
+
+.task{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#task-title{
+  margin-right:auto;
+}
+
 

@@ -1,38 +1,68 @@
 import React from 'react'
 import TodoContext from '../contexts/TodoContext'
 export default function Task() {
-  const {tasks, addTaskToProject, deleteTask} = React.useContext(TodoContext);
-  const [taskForm, setTaskForm] = React.useState({taskTitle:''})
+  const {
+    activeProjectTitle, 
+    tasks, 
+    addTaskToProject, 
+    deleteTask, 
+    showTaskForm, 
+    setShowTaskForm, 
+    taskForm, 
+    handleTaskForm,
+    taskSelected,
+    setTaskSelected,
+    setTaskEdit,
+    updateTask,
+  } = React.useContext(TodoContext);
 
+  console.log(taskForm);
   const taskElements = tasks.map(task => {
     return(
-      <div className="task">
-        {task.taskTitle}
-        <button onClick={() => {deleteTask(task.taskId)}}>Delete Task</button>
+      <div>
+      {taskSelected !== task.taskId ?
+        <div className="task">
+          <p id="task-title" onClick={() => setTaskEdit(task.taskId, task)}>{task.taskTitle}</p>
+          <button onClick={() => {deleteTask(task.taskId)}}>Delete Task</button>
+        </div>
+        :
+        <input 
+          type="text" 
+          name="taskTitle"
+          value={taskForm.taskTitle}
+          onChange={handleTaskForm}
+          onBlur={()=>updateTask(task.taskId)}
+        />
+      }
       </div>
     )
   })
-  const handleTaskForm = (event) =>{
-    const {name, type, checked, value} = event.target;
 
-    setTaskForm(prevForm => {
-      return {...prevForm,
-        [name] : type === "checkbox" ? checked : value
-      }
-    })
-  }
-
-  console.log(taskForm);
   return (
     <div className='tasks'>
-      <input 
-        type="text" 
-        name="taskTitle"
-        value={taskForm.taskTitle}
-        onChange={handleTaskForm}
-      />
-      <button onClick={() => addTaskToProject(taskForm.taskTitle)}>Add Task</button>
-      <div className="task-list">{taskElements}</div>
+      <h1>{activeProjectTitle}</h1>
+
+      <div className="task-list">
+        {taskElements}
+
+        {showTaskForm ?
+          <div className="task-form">
+            <input
+              type="text"
+              name="taskTitle"
+              value={taskForm.taskTitle}
+              onChange={handleTaskForm}
+            />
+            <button onClick={() => addTaskToProject(taskForm.taskTitle)}>Add Task</button>
+          </div>
+
+          :
+
+          <button onClick={() => setShowTaskForm(true)}>Create Task</button>
+        }
+
+
+      </div>
     </div>
   )
 }

@@ -130,29 +130,32 @@ main{
   cursor:text;
 }
 
-#create-project{
+#create-project, #create-task{
   padding: 5px;
   cursor:pointer;
 }
 
-.project-form{
+.project-form, .task-form{
   display: flex;
   flex-direction: column;
   gap:10px;
 }
 
-.project-form > input, #edit-project-form{
+.project-form > input, #edit-project-form, .task-form > input, .edit-task-form{
   padding: 5px;
 }
 
-.project-form-buttons{
+.edit-task-form{
+  width: 30%;
+}
+
+.project-form-buttons, .task-form-buttons{
   display: flex;
   justify-content: center;
   gap: 10px;
-
 }
 
-.project-form-buttons > button{
+.project-form-buttons > button, .task-form-buttons > button{
   width: 100%;
   padding: 5px;
   cursor:pointer;
@@ -170,12 +173,17 @@ main{
   flex-direction: column;
   width: 90%;
   margin:auto;
+  gap:10px;
 }
 
 .task{
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 0 10px;
+  border-radius: 5px;
+  border:none;
+  cursor:pointer;
 }
 
 #task-title, #task-title-form{

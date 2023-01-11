@@ -16,9 +16,18 @@ export default function Task() {
     updateTask,
   } = React.useContext(TodoContext);
 
+  const [isHover, setIsHover] = React.useState(false);
+  const handleMouseEnter = (taskId) =>{
+    setIsHover(taskId);
+  }
+
+  const handleMouseLeave = () =>{
+    setIsHover(null);
+  }
+
   const taskElements = tasks.map(task => {
     return(
-      <div class="task">
+      <div class="task" style={isHover === task.taskId ? {backgroundColor: '#444444'} : {backgroundColor: '#202020'}} onMouseEnter={() => handleMouseEnter(task.taskId)} onMouseLeave={handleMouseLeave}>
         <div id="checkbox" onClick={() => deleteTask(task.taskId)}></div>
         {taskSelected.titleField !== task.taskId ?
           <p id="task-title" onClick={(e)=>setTaskEdit(e, task.taskId, task)}>{task.taskTitle}</p>
@@ -27,6 +36,7 @@ export default function Task() {
           type="text" 
           name="taskTitle"
           id="task-title-form"
+          className="edit-task-form"
           value={taskForm.taskTitle}
           onChange={handleTaskForm}
           onBlur={()=>updateTask(task.taskId)}
@@ -38,6 +48,7 @@ export default function Task() {
           <input 
             type="date" 
             name="taskDueDate"
+            className="edit-task-form"
             value={taskForm.dueDate}
             onChange={handleTaskForm}
             onBlur={()=>updateTask(task.taskId)}
@@ -46,6 +57,13 @@ export default function Task() {
       </div>
     )
   })
+
+
+  const handleKeyPress = (event, taskTitle) =>{
+    if(event.key === "Enter"){
+      addTaskToProject(taskTitle)
+    }
+  }
 
 
 
@@ -67,11 +85,15 @@ export default function Task() {
                 name="taskTitle"
                 value={taskForm.taskTitle}
                 onChange={handleTaskForm}
+                onKeyPress={(e) => handleKeyPress(e, taskForm.taskTitle)}
               />
-              <button onClick={() => addTaskToProject(taskForm.taskTitle)}>Add Task</button>
+              <div className="task-form-buttons">
+                <button onClick={() => addTaskToProject(taskForm.taskTitle)}>Create</button>
+                <button onClick={() => setShowTaskForm(false)}>Cancel</button>
+              </div>
             </div>
             :
-            <button onClick={() => setShowTaskForm(true)}>Create Task</button>
+            <button id="create-task" onClick={() => setShowTaskForm(true)}>Create New Task</button>
           }
         </div>
       </div>}

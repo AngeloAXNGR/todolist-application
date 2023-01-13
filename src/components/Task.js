@@ -82,7 +82,7 @@ export default function Task() {
     <div className='tasks'>
       {hideTaskComponent ? 
       <div className="no-project-selected">
-        <h2>Select a Project to Start Adding Task</h2>
+        <h2>Select a Project to Start Adding Tasks</h2>
       </div> 
       : 
       <div className="task-list">

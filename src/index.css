@@ -89,6 +89,7 @@ header > h1{
 
 .form-row > input:active{
   border:none;
+  background-color: white;
 }
 
 .form-buttons{

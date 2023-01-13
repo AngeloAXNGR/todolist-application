@@ -4,6 +4,14 @@ import EmailIcon from '../images/email.svg';
 import PassWordIcon from '../images/password.svg';
 export default function SignUpModal() {
   const {credentials,setIsRegistering, handleChange, handleRegister} = React.useContext(UserContext);
+
+
+  const handleKeyPress = (event, taskTitle) =>{
+    if(event.key === "Enter"){
+      handleRegister()
+    }
+  }
+
   return (
     <div className="sign-up-modal">
       <h1 className="modal-title">Sign Up</h1>
@@ -18,6 +26,7 @@ export default function SignUpModal() {
             name="email"
             value={credentials.email}
             onChange={handleChange}
+            onKeyPress={handleKeyPress}
           />
         </div>
         <div className="form-row">
@@ -29,6 +38,7 @@ export default function SignUpModal() {
             name="emailConfirm"
             value={credentials.emailConfirm}
             onChange={handleChange}
+            onKeyPress={handleKeyPress}
           />
         </div>
         <div className="form-row">
@@ -40,6 +50,7 @@ export default function SignUpModal() {
             name="password"
             value={credentials.password}
             onChange={handleChange}
+            onKeyPress={handleKeyPress}
           />
         </div>
         <div className="form-row">
@@ -51,6 +62,7 @@ export default function SignUpModal() {
             name="passwordConfirm"
             value={credentials.passwordConfirm}
             onChange={handleChange}
+            onKeyPress={handleKeyPress}
           />
         </div>
       </div>

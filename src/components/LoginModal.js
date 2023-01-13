@@ -5,6 +5,14 @@ import PassWordIcon from '../images/password.svg';
 
 export default function LoginModal() {
   const {credentials,setIsRegistering, handleChange, handleSignIn} = React.useContext(UserContext);
+
+  const handleKeyPress = (event, taskTitle) =>{
+    if(event.key === "Enter"){
+      handleSignIn()
+    }
+  }
+
+
   return (
     <div className="login-modal">
       <h1 className="modal-title">Login</h1>
@@ -18,6 +26,7 @@ export default function LoginModal() {
             name="email"
             value={credentials.email}
             onChange={handleChange}
+            onKeyPress={handleKeyPress}
           />
         </div>
         <div class="form-row">
@@ -29,6 +38,7 @@ export default function LoginModal() {
             name="password"
             value={credentials.password}
             onChange={handleChange}
+            onKeyPress={handleKeyPress}
           />
         </div>
       </div>

@@ -16,18 +16,29 @@ export default function Task() {
     updateTask,
   } = React.useContext(TodoContext);
 
-  const [isHover, setIsHover] = React.useState(false);
-  const handleMouseEnter = (taskId) =>{
-    setIsHover(taskId);
-  }
+  const [dateToday, setDateToday] = React.useState('');
 
-  const handleMouseLeave = () =>{
-    setIsHover(null);
+  React.useEffect(() => {
+    const date = new Date();
+    const day = ("0" + date.getDate()).slice(-2)
+    const month = ("0" + (date.getMonth() + 1)).slice(-2)
+    const year = date.getFullYear()
+    setDateToday(`${year}-${month}-${day}`);
+  }, [])
+
+
+  const getUnix = (date) => {
+    return (new Date(date).getTime() / 1000)
   }
 
   const taskElements = tasks.map(task => {
+    const dueDateStyle = {
+      backgroundColor: getUnix(dateToday) === getUnix(task.taskDueDate) ? "rgb(219, 150, 0)" : 
+                       getUnix(dateToday) > getUnix(task.taskDueDate) ? "rgb(201, 95, 95)" : "#292929"
+    }
+
     return(
-      <div class="task" style={isHover === task.taskId ? {backgroundColor: '#444444'} : {backgroundColor: '#202020'}} onMouseEnter={() => handleMouseEnter(task.taskId)} onMouseLeave={handleMouseLeave}>
+      <div class="task" style={Object.assign({},dueDateStyle)}>
         <div id="checkbox" onClick={() => deleteTask(task.taskId)}></div>
         {taskSelected.titleField !== task.taskId ?
           <p id="task-title" onClick={(e)=>setTaskEdit(e, task.taskId, task)}>{task.taskTitle}</p>
@@ -70,13 +81,12 @@ export default function Task() {
   return (
     <div className='tasks'>
       {hideTaskComponent ? 
-      <div>
-        <h1>Select a Project</h1>
+      <div className="no-project-selected">
+        <h2>Select a Project to Start Adding Task</h2>
       </div> 
       : 
-      <div>
-        <h1>{activeProjectTitle}</h1>
-        <div className="task-list">
+      <div className="task-list">
+        <h2>{activeProjectTitle}</h2>
           {taskElements}
           {showTaskForm ?
             <div className="task-form">
@@ -95,7 +105,6 @@ export default function Task() {
             :
             <button id="create-task" onClick={() => setShowTaskForm(true)}>Create New Task</button>
           }
-        </div>
       </div>}
     </div>
   )

@@ -168,10 +168,16 @@ main{
   color:white;
 }
 
+.no-project-selected{
+  margin:0;
+  /* border: 2px solid black; */
+  text-align: center;
+}
+
 .task-list{
   display:flex;
   flex-direction: column;
-  width: 90%;
+  max-width: 800px;
   margin:auto;
   gap:10px;
 }

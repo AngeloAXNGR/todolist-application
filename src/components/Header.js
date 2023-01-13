@@ -5,7 +5,7 @@ export default function Header() {
   const {accountName, handleSignOut} = React.useContext(UserContext);
   return (
     <header>
-      <h1>TodoList Application</h1>
+      <h1>ReactTodo</h1>
       <p>Signed In using: {accountName} </p>
       <button onClick={handleSignOut}>Sign Out</button>
     </header>

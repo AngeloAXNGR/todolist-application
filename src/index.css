@@ -54,7 +54,7 @@ header > h1{
   text-align:center;
   width: 40%;
   display:flex;
-  gap: 10px;
+  gap: 30px;
   flex-direction: column;
 }
 
@@ -65,15 +65,30 @@ header > h1{
 .form-inputs{
   display:flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
 
 }
 
-.form-inputs >input{
-  border-radius: 10px;
+.form-row{
+  display:flex;
+  /* border: solid red; */
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.5);
+  border-radius: 30px;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.form-row >input{
   border:1px solid gray;
+  border:none;
   padding: 5px 20px;
   font-size:2rem;
+  width: 100%;
+  outline:none;
+}
+
+.form-row > input:active{
+  border:none;
 }
 
 .form-buttons{
@@ -87,6 +102,14 @@ header > h1{
   padding: 5px 20px;
   font-size: 1.5rem;
   cursor:pointer;
+  background-color:white;
+  border-radius:20px;
+  transition: background-color 100ms ease-in-out, color 100ms ease-in-out;
+}
+
+.form-buttons > button:hover{
+  background-color:black;
+  color:white;
 }
 
 /* End Login Page */

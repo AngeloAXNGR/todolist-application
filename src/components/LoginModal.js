@@ -1,5 +1,7 @@
 import React from 'react'
 import UserContext from '../contexts/UserContext'
+import EmailIcon from '../images/email.svg';
+import PassWordIcon from '../images/password.svg';
 
 export default function LoginModal() {
   const {credentials,setIsRegistering, handleChange, handleSignIn} = React.useContext(UserContext);
@@ -7,22 +9,28 @@ export default function LoginModal() {
     <div className="login-modal">
       <h1 className="modal-title">Login</h1>
       <div className="form-inputs">
-        <input
-          placeholder="Email"
-          type="email"
-          id="email"
-          name="email"
-          value={credentials.email}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          id="password"
-          name="password"
-          value={credentials.password}
-          onChange={handleChange}
-        />
+        <div class="form-row">
+          <img src={EmailIcon} alt="" />
+          <input
+            placeholder="Email"
+            type="email"
+            id="email"
+            name="email"
+            value={credentials.email}
+            onChange={handleChange}
+          />
+        </div>
+        <div class="form-row">
+          <img src={PassWordIcon} alt="" />
+          <input
+            placeholder="Password"
+            type="password"
+            id="password"
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
+          />
+        </div>
       </div>
 
       <div className="form-buttons">
